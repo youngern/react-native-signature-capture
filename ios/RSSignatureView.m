@@ -30,10 +30,10 @@
 		_border.strokeColor = [UIColor blackColor].CGColor;
 		_border.fillColor = nil;
 		_border.lineDashPattern = @[@4, @2];
-		
+
 		[self.layer addSublayer:_border];
 	}
-	
+
 	return self;
 }
 
@@ -49,33 +49,35 @@
 {
 	[super layoutSubviews];
 	if (!_loaded) {
-		
+
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didRotate:)
 																								 name:UIDeviceOrientationDidChangeNotification object:nil];
-		
+
 		_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-		
+
 		CGSize screen = self.bounds.size;
-		
+
 		sign = [[PPSSignatureView alloc]
 						initWithFrame: CGRectMake(0, 0, screen.width, screen.height)
 						context: _context];
 		sign.manager = manager;
-		
+
+		[sign setBackgroundColor:[UIColor clearColor]];
+
 		[self addSubview:sign];
-		
+
 		if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
-			
+
 			titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 24)];
 			[titleLabel setCenter:CGPointMake(self.bounds.size.width/2, self.bounds.size.height - 120)];
-			
+
 			[titleLabel setText:@"x_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"];
 			[titleLabel setLineBreakMode:NSLineBreakByClipping];
 			[titleLabel setTextAlignment: NSTextAlignmentCenter];
 			[titleLabel setTextColor:[UIColor colorWithRed:200/255.f green:200/255.f blue:200/255.f alpha:1.f]];
-			//[titleLabel setBackgroundColor:[UIColor greenColor]];
+			[titleLabel setBackgroundColor:[UIColor clearColor]];
 			[sign addSubview:titleLabel];
-			
+
 			if (_showNativeButtons) {
 				//Save button
 				saveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -88,7 +90,7 @@
 
 				saveButton.frame = CGRectMake(sign.bounds.size.width - buttonSize.width,
 				                              0, buttonSize.width, buttonSize.height);
-				[saveButton setBackgroundColor:[UIColor colorWithRed:250/255.f green:250/255.f blue:250/255.f alpha:1.f]];
+				[saveButton setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:saveButton];
 
 
@@ -100,12 +102,12 @@
 				[clearButton setTitle:@"Reset" forState:UIControlStateNormal];
 
 				clearButton.frame = CGRectMake(0, 0, buttonSize.width, buttonSize.height);
-				[clearButton setBackgroundColor:[UIColor colorWithRed:250/255.f green:250/255.f blue:250/255.f alpha:1.f]];
+				[clearButton setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:clearButton];
 			}
 		}
 		else {
-			
+
 			titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.height - 80, 24)];
 			[titleLabel setCenter:CGPointMake(40, self.bounds.size.height/2)];
 			[titleLabel setTransform:CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90))];
@@ -115,7 +117,7 @@
 			[titleLabel setTextColor:[UIColor colorWithRed:200/255.f green:200/255.f blue:200/255.f alpha:1.f]];
 			//[titleLabel setBackgroundColor:[UIColor greenColor]];
 			[sign addSubview:titleLabel];
-			
+
 			if (_showNativeButtons) {
 				//Save button
 				saveButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -128,7 +130,7 @@
 				CGSize buttonSize = CGSizeMake(55, 80.0); //Width/Height is swapped
 
 				saveButton.frame = CGRectMake(sign.bounds.size.width - buttonSize.width, sign.bounds.size.height - buttonSize.height, buttonSize.width, buttonSize.height);
-				[saveButton setBackgroundColor:[UIColor colorWithRed:250/255.f green:250/255.f blue:250/255.f alpha:1.f]];
+				[saveButton setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:saveButton];
 
 				//Clear button
@@ -140,11 +142,11 @@
 				[clearButton setTitle:@"Reset" forState:UIControlStateNormal];
 
 				clearButton.frame = CGRectMake(sign.bounds.size.width - buttonSize.width, 0, buttonSize.width, buttonSize.height);
-				[clearButton setBackgroundColor:[UIColor colorWithRed:250/255.f green:250/255.f blue:250/255.f alpha:1.f]];
+				[clearButton setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:clearButton];
 			}
 		}
-		
+
 	}
 	_loaded = true;
 	_border.path = [UIBezierPath bezierPathWithRect:self.bounds].CGPath;
@@ -171,16 +173,16 @@
 	saveButton.hidden = YES;
 	clearButton.hidden = YES;
 	UIImage *signImage = [self.sign signatureImage: _rotateClockwise withSquare:_square];
-	
+
 	saveButton.hidden = NO;
 	clearButton.hidden = NO;
-	
+
 	NSError *error;
-	
+
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
 	NSString *documentsDirectory = [paths firstObject];
 	NSString *tempPath = [documentsDirectory stringByAppendingFormat:@"/signature.png"];
-	
+
 	//remove if file already exists
 	if ([[NSFileManager defaultManager] fileExistsAtPath:tempPath]) {
 		[[NSFileManager defaultManager] removeItemAtPath:tempPath error:&error];
@@ -188,7 +190,7 @@
 			NSLog(@"Error: %@", error.debugDescription);
 		}
 	}
-	
+
 	// Convert UIImage object into NSData (a wrapper for a stream of bytes) formatted according to PNG spec
 	NSData *imageData = UIImagePNGRepresentation(signImage);
 	BOOL isSuccess = [imageData writeToFile:tempPath atomically:YES];
@@ -196,7 +198,7 @@
 		NSFileManager *man = [NSFileManager defaultManager];
 		NSDictionary *attrs = [man attributesOfItemAtPath:tempPath error: NULL];
 		//UInt32 result = [attrs fileSize];
-		
+
 		NSString *base64Encoded = [imageData base64EncodedStringWithOptions:0];
 		[self.manager publishSaveImageEvent: tempPath withEncoded:base64Encoded];
 	}
