@@ -33,7 +33,7 @@
 		_border.fillColor = nil;
 		_border.lineDashPattern = @[@4, @2];
 
-		[self.layer addSublayer:_border];
+		// [self.layer addSublayer:_border];
 	}
 
 	return self;
@@ -120,7 +120,7 @@
 				[titleLabel setTextAlignment: NSTextAlignmentLeft];
 				[titleLabel setTextColor:[UIColor colorWithRed:200/255.f green:200/255.f blue:200/255.f alpha:1.f]];
 				//[titleLabel setBackgroundColor:[UIColor greenColor]];
-				[sign addSubview:titleLabel];				
+				[sign addSubview:titleLabel];
 			}
 
 			if (_showNativeButtons) {
