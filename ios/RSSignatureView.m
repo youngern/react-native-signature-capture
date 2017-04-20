@@ -17,6 +17,7 @@
 	BOOL _rotateClockwise;
 	BOOL _square;
 	BOOL _showNativeButtons;
+	BOOL _showTitleLabel;
 }
 
 @synthesize sign;
@@ -25,6 +26,7 @@
 - (instancetype)init
 {
 	_showNativeButtons = YES;
+	_showTitleLabel = YES;
 	if ((self = [super init])) {
 		_border = [CAShapeLayer layer];
 		_border.strokeColor = [UIColor blackColor].CGColor;
@@ -68,15 +70,17 @@
 
 		if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
 
-			titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 24)];
-			[titleLabel setCenter:CGPointMake(self.bounds.size.width/2, self.bounds.size.height - 120)];
+      if (_showTitleLabel) {
+				titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 24)];
+				[titleLabel setCenter:CGPointMake(self.bounds.size.width/2, self.bounds.size.height - 120)];
 
-			[titleLabel setText:@"x_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"];
-			[titleLabel setLineBreakMode:NSLineBreakByClipping];
-			[titleLabel setTextAlignment: NSTextAlignmentCenter];
-			[titleLabel setTextColor:[UIColor colorWithRed:200/255.f green:200/255.f blue:200/255.f alpha:1.f]];
-			[titleLabel setBackgroundColor:[UIColor clearColor]];
-			[sign addSubview:titleLabel];
+				[titleLabel setText:@"x_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"];
+				[titleLabel setLineBreakMode:NSLineBreakByClipping];
+				[titleLabel setTextAlignment: NSTextAlignmentCenter];
+				[titleLabel setTextColor:[UIColor colorWithRed:200/255.f green:200/255.f blue:200/255.f alpha:1.f]];
+				[titleLabel setBackgroundColor:[UIColor clearColor]];
+				[sign addSubview:titleLabel];
+			}
 
 			if (_showNativeButtons) {
 				//Save button
@@ -107,16 +111,17 @@
 			}
 		}
 		else {
-
-			titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.height - 80, 24)];
-			[titleLabel setCenter:CGPointMake(40, self.bounds.size.height/2)];
-			[titleLabel setTransform:CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90))];
-			[titleLabel setText:@"x_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"];
-			[titleLabel setLineBreakMode:NSLineBreakByClipping];
-			[titleLabel setTextAlignment: NSTextAlignmentLeft];
-			[titleLabel setTextColor:[UIColor colorWithRed:200/255.f green:200/255.f blue:200/255.f alpha:1.f]];
-			//[titleLabel setBackgroundColor:[UIColor greenColor]];
-			[sign addSubview:titleLabel];
+      if(_showTitleLabel) {
+				titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.height - 80, 24)];
+				[titleLabel setCenter:CGPointMake(40, self.bounds.size.height/2)];
+				[titleLabel setTransform:CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90))];
+				[titleLabel setText:@"x_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"];
+				[titleLabel setLineBreakMode:NSLineBreakByClipping];
+				[titleLabel setTextAlignment: NSTextAlignmentLeft];
+				[titleLabel setTextColor:[UIColor colorWithRed:200/255.f green:200/255.f blue:200/255.f alpha:1.f]];
+				//[titleLabel setBackgroundColor:[UIColor greenColor]];
+				[sign addSubview:titleLabel];				
+			}
 
 			if (_showNativeButtons) {
 				//Save button
@@ -163,6 +168,10 @@
 
 - (void)setShowNativeButtons:(BOOL)showNativeButtons {
 	_showNativeButtons = showNativeButtons;
+}
+
+- (void)setShowTitleLabel:(BOOL)showTitleLabel {
+	_showTitleLabel = showTitleLabel;
 }
 
 -(void) onSaveButtonPressed {
