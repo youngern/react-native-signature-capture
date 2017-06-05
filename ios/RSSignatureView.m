@@ -1,5 +1,5 @@
 #import "RSSignatureView.h"
-#import "RCTConvert.h"
+#import <React/RCTConvert.h>
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "PPSSignatureView.h"
@@ -18,7 +18,7 @@
 	BOOL _square;
 	BOOL _showNativeButtons;
 	BOOL _showTitleLabel;
-    BOOL _showBorder;
+  BOOL _showBorder;
 }
 
 @synthesize sign;
@@ -28,8 +28,8 @@
 {
 	_showNativeButtons = YES;
 	_showTitleLabel = YES;
-    _showBorder = YES;
-    self = [super init];
+  _showBorder = YES;
+  self = [super init];
 //	if ((self = [super init])) {
 //		_border = [CAShapeLayer layer];
 //		_border.strokeColor = [UIColor blackColor].CGColor;
@@ -38,7 +38,6 @@
 //
 //		[self.layer addSublayer:_border];
 //	}
-
 	return self;
 }
 
@@ -66,22 +65,20 @@
 						initWithFrame: CGRectMake(0, 0, screen.width, screen.height)
 						context: _context];
 		sign.manager = manager;
-
 		[sign setBackgroundColor:[UIColor clearColor]];
-
 		[self addSubview:sign];
 
 		if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+	     if(self.layer && _showBorder) {
+	         _border = [CAShapeLayer layer];
+	         _border.strokeColor = [UIColor blackColor].CGColor;
+	         _border.fillColor = nil;
+	         _border.lineDashPattern = @[@4, @2];
 
-           if(self.layer && _showBorder) {
-               _border = [CAShapeLayer layer];
-               _border.strokeColor = [UIColor blackColor].CGColor;
-               _border.fillColor = nil;
-               _border.lineDashPattern = @[@4, @2];
-
-               [self.layer addSublayer:_border];
-           }
-           if (_showTitleLabel) {
+	         [self.layer addSublayer:_border];
+	     }
+           
+			if (_showTitleLabel) {
 				titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 24)];
 				[titleLabel setCenter:CGPointMake(self.bounds.size.width/2, self.bounds.size.height - 120)];
 
@@ -122,15 +119,15 @@
 			}
 		}
 		else {
-            if(self.layer && _showBorder) {
-                _border = [CAShapeLayer layer];
-                _border.strokeColor = [UIColor blackColor].CGColor;
-                _border.fillColor = nil;
-                _border.lineDashPattern = @[@4, @2];
+      if(self.layer && _showBorder) {
+          _border = [CAShapeLayer layer];
+          _border.strokeColor = [UIColor blackColor].CGColor;
+          _border.fillColor = nil;
+          _border.lineDashPattern = @[@4, @2];
 
-                [self.layer addSublayer:_border];
-            }
-            if(_showTitleLabel) {
+          [self.layer addSublayer:_border];
+      }
+			if (_showTitleLabel) {
 				titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.height - 80, 24)];
 				[titleLabel setCenter:CGPointMake(40, self.bounds.size.height/2)];
 				[titleLabel setTransform:CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(90))];

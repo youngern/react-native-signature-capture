@@ -1,7 +1,7 @@
 #import "RSSignatureViewManager.h"
-#import "RCTBridgeModule.h"
-#import "RCTBridge.h"
-#import "RCTEventDispatcher.h"
+#import <React/RCTBridgeModule.h>
+#import <React/RCTBridge.h>
+#import <React/RCTEventDispatcher.h>
 
 @implementation RSSignatureViewManager
 
@@ -15,7 +15,6 @@ RCT_EXPORT_VIEW_PROPERTY(square, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showNativeButtons, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showTitleLabel, BOOL)
 RCT_EXPORT_VIEW_PROPERTY(showBorder, BOOL)
-
 
 -(dispatch_queue_t) methodQueue
 {
