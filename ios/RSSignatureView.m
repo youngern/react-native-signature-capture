@@ -18,6 +18,7 @@
 	BOOL _square;
 	BOOL _showNativeButtons;
 	BOOL _showTitleLabel;
+  BOOL _showBorder;
 }
 
 @synthesize sign;
@@ -27,15 +28,16 @@
 {
 	_showNativeButtons = YES;
 	_showTitleLabel = YES;
-	if ((self = [super init])) {
-		_border = [CAShapeLayer layer];
-		_border.strokeColor = [UIColor blackColor].CGColor;
-		_border.fillColor = nil;
-		_border.lineDashPattern = @[@4, @2];
-
-		[self.layer addSublayer:_border];
-	}
-
+  _showBorder = YES;
+  self = [super init];
+//	if ((self = [super init])) {
+//		_border = [CAShapeLayer layer];
+//		_border.strokeColor = [UIColor blackColor].CGColor;
+//		_border.fillColor = nil;
+//		_border.lineDashPattern = @[@4, @2];
+//
+//		[self.layer addSublayer:_border];
+//	}
 	return self;
 }
 
@@ -63,11 +65,19 @@
 						initWithFrame: CGRectMake(0, 0, screen.width, screen.height)
 						context: _context];
 		sign.manager = manager;
-
+		[sign setBackgroundColor:[UIColor clearColor]];
 		[self addSubview:sign];
 
 		if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad ) {
+	     if(self.layer && _showBorder) {
+	         _border = [CAShapeLayer layer];
+	         _border.strokeColor = [UIColor blackColor].CGColor;
+	         _border.fillColor = nil;
+	         _border.lineDashPattern = @[@4, @2];
 
+	         [self.layer addSublayer:_border];
+	     }
+           
 			if (_showTitleLabel) {
 				titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, 24)];
 				[titleLabel setCenter:CGPointMake(self.bounds.size.width/2, self.bounds.size.height - 120)];
@@ -76,7 +86,7 @@
 				[titleLabel setLineBreakMode:NSLineBreakByClipping];
 				[titleLabel setTextAlignment: NSTextAlignmentCenter];
 				[titleLabel setTextColor:[UIColor colorWithRed:200/255.f green:200/255.f blue:200/255.f alpha:1.f]];
-				//[titleLabel setBackgroundColor:[UIColor greenColor]];
+				[titleLabel setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:titleLabel];
 			}
 
@@ -92,7 +102,7 @@
 
 				saveButton.frame = CGRectMake(sign.bounds.size.width - buttonSize.width,
 				                              0, buttonSize.width, buttonSize.height);
-				[saveButton setBackgroundColor:[UIColor colorWithRed:250/255.f green:250/255.f blue:250/255.f alpha:1.f]];
+				[saveButton setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:saveButton];
 
 
@@ -104,12 +114,19 @@
 				[clearButton setTitle:@"Reset" forState:UIControlStateNormal];
 
 				clearButton.frame = CGRectMake(0, 0, buttonSize.width, buttonSize.height);
-				[clearButton setBackgroundColor:[UIColor colorWithRed:250/255.f green:250/255.f blue:250/255.f alpha:1.f]];
+				[clearButton setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:clearButton];
 			}
 		}
 		else {
+      if(self.layer && _showBorder) {
+          _border = [CAShapeLayer layer];
+          _border.strokeColor = [UIColor blackColor].CGColor;
+          _border.fillColor = nil;
+          _border.lineDashPattern = @[@4, @2];
 
+          [self.layer addSublayer:_border];
+      }
 			if (_showTitleLabel) {
 				titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.height - 80, 24)];
 				[titleLabel setCenter:CGPointMake(40, self.bounds.size.height/2)];
@@ -134,7 +151,7 @@
 				CGSize buttonSize = CGSizeMake(55, 80.0); //Width/Height is swapped
 
 				saveButton.frame = CGRectMake(sign.bounds.size.width - buttonSize.width, sign.bounds.size.height - buttonSize.height, buttonSize.width, buttonSize.height);
-				[saveButton setBackgroundColor:[UIColor colorWithRed:250/255.f green:250/255.f blue:250/255.f alpha:1.f]];
+				[saveButton setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:saveButton];
 
 				//Clear button
@@ -146,7 +163,7 @@
 				[clearButton setTitle:@"Reset" forState:UIControlStateNormal];
 
 				clearButton.frame = CGRectMake(sign.bounds.size.width - buttonSize.width, 0, buttonSize.width, buttonSize.height);
-				[clearButton setBackgroundColor:[UIColor colorWithRed:250/255.f green:250/255.f blue:250/255.f alpha:1.f]];
+				[clearButton setBackgroundColor:[UIColor clearColor]];
 				[sign addSubview:clearButton];
 			}
 		}
@@ -171,6 +188,10 @@
 
 - (void)setShowTitleLabel:(BOOL)showTitleLabel {
 	_showTitleLabel = showTitleLabel;
+}
+
+- (void)setShowBorder:(BOOL)showBorder {
+    _showBorder = showBorder;
 }
 
 -(void) onSaveButtonPressed {
