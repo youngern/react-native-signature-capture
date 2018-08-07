@@ -1,8 +1,8 @@
 
 'use strict';
-
+var React = require('react');
 var ReactNative = require('react-native');
-var PropTypes = require('prop-types'); 
+var PropTypes = require('prop-types');
 var {
     requireNativeComponent,
     View,
@@ -98,6 +98,13 @@ SignatureCapture.propTypes = {
     showTitleLabel: PropTypes.bool,
     showBorder: PropTypes.bool,
     maxSize:PropTypes.number,
+    accessibilityLabel: PropTypes.string,
+    accessibilityComponentType: PropTypes.string,
+    onLayout: PropTypes.bool,
+    testID: PropTypes.string,
+    importantForAccessibility: PropTypes.string,
+    renderToHardwareTextureAndroid: PropTypes.bool,
+    accessibilityLiveRegion: PropTypes.string,
 };
 
 var RSSignatureView = requireNativeComponent('RSSignatureView', SignatureCapture, {
